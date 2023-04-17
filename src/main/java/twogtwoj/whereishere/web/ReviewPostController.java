@@ -1,8 +1,6 @@
 package twogtwoj.whereishere.web;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +13,8 @@ import twogtwoj.whereishere.service.ReviewPostService;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -59,7 +55,7 @@ public class ReviewPostController {
                                  @RequestParam String reviewPostContent, @RequestParam MultipartFile reviewPostImg1,
                                  @RequestParam MultipartFile reviewPostImg2) throws IOException {
 
-        Company findCompany = companyService.findCompanyByCompanyName(companyName);
+        Company findCompany = companyService.CompanyByCompanyName(companyName);
         String reviewPostImg1Name = UUID.randomUUID() + ".png";
         String reviewPostImg2Name = UUID.randomUUID() + ".png";
         reviewPostImg1.transferTo(new File(fileStore.getFullPath(reviewPostImg1Name)));

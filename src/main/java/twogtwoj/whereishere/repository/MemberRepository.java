@@ -1,26 +1,11 @@
 package twogtwoj.whereishere.repository;
 
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import twogtwoj.whereishere.domain.Member;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
-@RequiredArgsConstructor
-@Transactional
 @Repository
-public class MemberRepository {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    private final EntityManager em;
-
-    public Member save(Member member) {
-        em.persist(member);
-        return member;
-    }
-
-    public Member findMemberByMemberId(Long memberId) {
-        return em.find(Member.class,memberId);
-    }
 }

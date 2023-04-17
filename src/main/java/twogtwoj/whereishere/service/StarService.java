@@ -20,9 +20,10 @@ public class StarService {
         return starRepository.save(star);
     }
 
-    public Double findStarsPointByCompany(Company company) {
-        return starRepository.findStarsPointByCompanyId(company);
-    }
+//    public Double findStarsPointByCompany(Company company) {
+//
+//        return starRepository
+//    }
 
     public List<Star> findAll() {
         return starRepository.findAll();

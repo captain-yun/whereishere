@@ -37,7 +37,7 @@
             <br>
             <span class="list">별점 매기기 </span>
             <br><br>
-            <form th:action="|/home/${companyId}/star|" method="post">
+            <form th:action="|/companies/${companyId}/star|" method="post">
                 <input type="number" name="starPoint" max="5" min="1" step="1" placeholder="별점">
                 <span>/ 5 </span>
                 <input type="submit" class="button" value="점수 등록">
@@ -51,13 +51,13 @@
         </div>
     </div>
     <div class="gocompanyreview">
-        <button class="button"  th:onclick="|location.href='@{/home}'|">업체 리뷰 보러가기</button>
+        <button class="button"  th:onclick="|location.href=|'@{/companies/${compandId}/reviews|}'||">업체 리뷰 보러가기</button>
     </div>
     <div class="gocompanyeventpost">
         <button class="button"  th:onclick="|location.href='@{/home}'|">업체 이벤트 보러가기</button>
     </div>
     <div class="companycomment">
-        <form th:action="|/home/${companyId}/comment|" method="post">
+        <form th:action="|/companies/${companyId}/comment|" method="post">
             <input type="text" name="commentContent" id="commentContent" placeholder="한줄 평을 남겨주세요!" style="width:90%; height:60px">
             <input type="submit" class="button" value="등록">
         </form>

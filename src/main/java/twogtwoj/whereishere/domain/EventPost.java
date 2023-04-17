@@ -14,7 +14,7 @@ public class EventPost { // 이벤트 게시판
     private Long eventPostId;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="COMPANY_ID")
     private Company company;
 

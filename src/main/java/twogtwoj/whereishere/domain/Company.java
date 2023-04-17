@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -37,6 +38,11 @@ public class Company {
 
     private String companyAddress;
 
+    @OneToMany(mappedBy = "company")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "company")
+    private List<Star> stars;
 
     public Company(String companyLoginId, String companyLoginPw, Long companyBusinessId, String companyName, String companyImg, String companyIntroduction, String companyCategory, String companyAddress) {
         this.companyLoginId = companyLoginId;

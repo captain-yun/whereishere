@@ -25,22 +25,32 @@ public class ReviewPostService {
     }
 
     public ReviewPost findByReviewId(Long reviewPostId) {
-        return reviewPostRepository.findByReviewPostId(reviewPostId);
+        return reviewPostRepository.findById(reviewPostId).get();
     }
 
     ReviewPost findByReviewPostTitle(String reviewPostTitle) {
         return reviewPostRepository.findByReviewPostTitle(reviewPostTitle);
     }
     public List<ReviewPost> findAllReviewPost() {
-        return reviewPostRepository.findAllReviewPost();
+        return reviewPostRepository.findAll();
     }
 
     public void update(Long reviewPostId, ReviewPost updateReviewPost) {
-        reviewPostRepository.update(reviewPostId, updateReviewPost);
+
+        ReviewPost reviewPost = reviewPostRepository.findById(reviewPostId).get();
+
+        reviewPost.setMember(updateReviewPost.getMember());
+        reviewPost.setCompany(updateReviewPost.getCompany());
+        reviewPost.setReviewPostDate(updateReviewPost.getReviewPostDate());
+        reviewPost.setReviewPostImg1(updateReviewPost.getReviewPostImg1());
+        reviewPost.setReviewPostImg2(updateReviewPost.getReviewPostImg2());
+        reviewPost.setReviewPostTitle(updateReviewPost.getReviewPostTitle());
+        reviewPost.setReviewPostContent(updateReviewPost.getReviewPostContent());
     }
 
     public void delete(Long reviewPostId) {
-        reviewPostRepository.delete(reviewPostId);
+        ReviewPost reviewPost = reviewPostRepository.findById(reviewPostId).get();
+        reviewPostRepository.delete(reviewPost);
     }
 
 }

@@ -17,11 +17,11 @@ public class Comment { // 업체 한줄평
     private Long commentId;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="MEMBER_ID")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="COMPANY_ID")
     private Company company;
 
