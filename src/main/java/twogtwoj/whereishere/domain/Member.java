@@ -1,8 +1,7 @@
 package twogtwoj.whereishere.domain;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,22 +15,22 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    private Long id;
 
-    private String memberLoginId;
+    private String loginId;
 
-    private String memberLoginPw;
+    private String password;
 
-    private String memberName;
+    private String name;
 
-    private LocalDate memberBirthday;
+    private LocalDate birthDate;
 
-
-    public Member(String memberLoginId, String memberLoginPw, String memberName, LocalDate memberBirthday) {
-        this.memberLoginId = memberLoginId;
-        this.memberLoginPw = memberLoginPw;
-        this.memberName = memberName;
-        this.memberBirthday = memberBirthday;
+    @Builder
+    public Member(String loginId, String password, String name, LocalDate birthDate) {
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.birthDate = birthDate;
     }
     public Member(){}
 }

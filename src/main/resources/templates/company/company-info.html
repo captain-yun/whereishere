@@ -76,7 +76,7 @@
         <br>
         <ul th:if="${commentList.size() != 0}" th:each="comment,commentStat : ${commentList}">
             <li class="companycommentnum" th:text="${commentStat.count}">순번</li>
-            <li class="companycommentwriter" th:text="${comment.getMember().getMemberName()}">작성자</li>
+            <li class="companycommentwriter" th:text="${comment.getMember().getName()}">작성자</li>
             <li class="companycommentcontent" th:text="${comment.getCommentContent()}">작성 내용</li>
             <li class="companycommenttime" th:text="${comment.getCommentWriteDate().getYear()} +  '년 '  + ${comment.getCommentWriteDate().getMonthValue()} +  '월 '
     + ${comment.getCommentWriteDate().getDayOfMonth()} +  '일 '  + ${comment.getCommentWriteDate().getHour()} +  '시 '  + ${comment.getCommentWriteDate().getMinute()} +  '분'" >날짜</li>
