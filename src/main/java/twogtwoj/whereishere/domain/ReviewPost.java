@@ -41,4 +41,13 @@ public class ReviewPost {
         this.reviewPostImg2 = reviewPostImg2;
         this.reviewPostDate = reviewPostDate;
     }
+
+    // 연관관계 편의 메서드
+    public void setCompany(Company company) {
+        if (this.company != null) {
+            this.company.getReviewPosts().remove(this);
+        }
+        this.company = company;
+        company.getReviewPosts().add(this);
+    }
 }

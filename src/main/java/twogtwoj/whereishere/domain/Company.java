@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,10 +40,13 @@ public class Company {
     private String companyAddress;
 
     @OneToMany(mappedBy = "company")
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "company")
-    private List<Star> stars;
+    private List<Star> stars = new ArrayList<>();
+
+    @OneToMany(mappedBy = "company")
+    private List<ReviewPost> reviewPosts = new ArrayList<>();
 
     public Company(String companyLoginId, String companyLoginPw, Long companyBusinessId, String companyName, String companyImg, String companyIntroduction, String companyCategory, String companyAddress) {
         this.companyLoginId = companyLoginId;
@@ -56,4 +60,12 @@ public class Company {
     }
 
     public Company() {}
+
+    // 연관관계 편의 메서드
+    public void addReviewPost(ReviewPost reviewPost) {
+        this.reviewPosts.add(reviewPost);
+        if (reviewPost.getCompany() != this) {
+            reviewPost.setCompany(this);
+        }
+    }
 }

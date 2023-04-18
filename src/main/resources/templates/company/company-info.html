@@ -51,10 +51,10 @@
         </div>
     </div>
     <div class="gocompanyreview">
-        <button class="button"  th:onclick="|location.href=|'@{/companies/${compandId}/reviews|}'||">업체 리뷰 보러가기</button>
+        <button class="button"  th:onclick="|location.href='/companies/${companyId}/reviews'|">업체 리뷰 보러가기</button>
     </div>
     <div class="gocompanyeventpost">
-        <button class="button"  th:onclick="|location.href='@{/home}'|">업체 이벤트 보러가기</button>
+        <button class="button"  th:onclick="|location.href='/home'|">업체 이벤트 보러가기</button>
     </div>
     <div class="companycomment">
         <form th:action="|/companies/${companyId}/comment|" method="post">

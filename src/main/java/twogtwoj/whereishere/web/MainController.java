@@ -79,7 +79,7 @@ public class MainController {
         model.addAttribute("starsPoint", starsPointToString);
         model.addAttribute("commentList", commentList);
 
-        return "/company/infocompany";
+        return "company/company-info";
     }
 
 
@@ -133,6 +133,17 @@ public class MainController {
         // 되돌아가기
         redirectAttributes.addAttribute("companyId",companyId);
         return "redirect:/companies/{companyId}";
+    }
+
+    // 업체 리뷰
+    @GetMapping("/companies/{companyId}/reviews")
+    public String showReviewsOfCompany(@PathVariable Long companyId, RedirectAttributes redirectAttributes) {
+
+        companyService.getReviewPosts(companyId);
+
+        // 되돌아가기
+        redirectAttributes.addAttribute("companyId",companyId);
+        return "review/reviews";
     }
 
 }

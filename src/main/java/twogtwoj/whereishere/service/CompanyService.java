@@ -3,7 +3,9 @@ package twogtwoj.whereishere.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import twogtwoj.whereishere.domain.Company;
+import twogtwoj.whereishere.domain.ReviewPost;
 import twogtwoj.whereishere.domain.Star;
+import twogtwoj.whereishere.dto.ReviewPostDto;
 import twogtwoj.whereishere.repository.CompanyRepository;
 
 import javax.transaction.Transactional;
@@ -40,5 +42,11 @@ public class CompanyService {
         List<Star> stars = company.getStars();
         double sum = stars.stream().mapToDouble(star -> star.getStarPoint()).sum();
         return sum / stars.size();
+    }
+
+    public List<ReviewPost> getReviewPosts(Long companyId) {
+        Company company = companyRepository.findById(companyId).get();
+        List<ReviewPost> reviewPosts = company.getReviewPosts();
+        return reviewPosts;
     }
 }
