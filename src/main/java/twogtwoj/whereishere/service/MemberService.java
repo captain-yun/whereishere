@@ -8,7 +8,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import twogtwoj.whereishere.domain.Company;
 import twogtwoj.whereishere.domain.Member;
+import twogtwoj.whereishere.repository.CompanyRepository;
 import twogtwoj.whereishere.repository.MemberRepository;
 
 
@@ -18,6 +20,7 @@ import twogtwoj.whereishere.repository.MemberRepository;
 public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final CompanyRepository companyRepository;
     private final PasswordEncoder passwordEncoder;
 
     public Member save(Member member){
@@ -29,16 +32,29 @@ public class MemberService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String input) throws UsernameNotFoundException {
 
-        Member member = memberRepository.findByLoginId(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Could not found member :" + username));
+        String[] split = input.split(":");
+        String username = split[0];
+        String role = split[1];
 
-        return User.builder()
-                .username(member.getLoginId())
-                .password(passwordEncoder.encode(member.getPassword()))
-                .roles("USER")
-                .build();
+        if (role.equals("member")) {
+            Member member = memberRepository.findByLoginId(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("Could not found member :" + username));
+            return User.builder()
+                    .username(member.getLoginId())
+                    .password(passwordEncoder.encode(member.getPassword()))
+                    .roles("USER")
+                    .build();
+        } else {
+            Company company = companyRepository.findByLoginId(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("Could not found member :" + username));
+            return User.builder()
+                    .username(company.getLoginId())
+                    .password(passwordEncoder.encode(company.getPassword()))
+                    .roles("USER")
+                    .build();
+        }
 
     }
 }

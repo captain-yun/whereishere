@@ -41,6 +41,19 @@
             <div class="field-error" th:errors="*{password}" />
         </div>
 
+        <fieldset>
+            <legend></legend>
+            <div>
+                <input type="radio" id="member" name="role" value="member"
+                       checked>
+                <label for="member">개인용</label>
+            </div>
+            <div>
+                <input type="radio" id="company" name="role" value="company">
+                <label for="company">기업용</label>
+            </div>
+        </fieldset>
+
         <hr class="my-4">
 
         <div class="row">

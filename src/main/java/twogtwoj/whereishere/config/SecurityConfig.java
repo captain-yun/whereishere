@@ -3,16 +3,20 @@ package twogtwoj.whereishere.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import twogtwoj.whereishere.service.MemberService;
 
@@ -28,29 +32,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
     @Autowired
     MemberService memberService;
 
-    /*
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.mvcMatcher("/**") // 모든 요청에 대해 필터체인을 만든다.
-                .formLogin()
-                .usernameParameter("myUsername") // 폼 ID 파라미터를 변경
-                .passwordParameter("myPassword") // 폼 PW 파라미터를 변경
-                .successHandler(new MyAuthenticationSuccessHandler()) // SuccessHandler를 커스텀
-                .failureHandler(new MyAuthenticationFailureHandler()) // FailureHandler를 커스텀
-                .and()
-                .authorizeRequests() // 인가를 결정할 때
-                .mvcMatchers("/**").hasRole("USER") // 모든 요청에 대해 USER 롤이 있는지 확인한다.
-        ;
+
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
-    */
+
+    @Bean
+    TwoFactorAuthenticationFilter twoFactorAuthenticationFilter() throws Exception {
+        TwoFactorAuthenticationFilter twoFactorAuthenticationFilter = new TwoFactorAuthenticationFilter();
+        twoFactorAuthenticationFilter.setAuthenticationManager(authenticationManager());
+        return twoFactorAuthenticationFilter;
+    }
+
+
 
     // http 요청에 대한 페이지 설정 (권한, 로그인 페이지, 로그아웃 메소드 등등)
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-
-
-
-        http.formLogin()
+//addFilterAt(new TwoFactorAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class )
+                http
+                .addFilterBefore(twoFactorAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class )
+                .formLogin()
                 .loginPage("/login") // 로그인 페이지 url
                 .defaultSuccessUrl("/") // 로그인 성공 시 url
                 .usernameParameter("loginId") // 로그인 시 사용할 파라미터 이름 지정 (username 에 들어갈 변수?)
@@ -64,14 +67,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
                         System.out.println(authentication.getDetails());
                     }
                 })
-                .failureUrl("/login") // 로그인 실패 시 url
+                .failureHandler(new AuthenticationFailureHandler() {
+                    @Override
+                    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                        System.out.println("인증이 실패하였습니다.");
+                        System.out.println(exception);
+                        System.out.println(exception.getMessage());
+                    }
+                })
+                .failureUrl("/login?result=fail") // 로그인 실패 시 url
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // 로그아웃 페이지 url
                 .logoutSuccessUrl("/"); // 로그아웃 성공 시 url
 
         http.authorizeRequests()
-                .mvcMatchers("/","/login/**","/images/**").permitAll() // 여기는 모두가 다 접근
+                .mvcMatchers("/login/**","/images/**").permitAll() // 여기는 모두가 다 접근
                 .anyRequest().authenticated(); // 나머지 경로들은 인증만 요구! (로그인 하면 다 접근 ㄱㄴ)
 
         http.exceptionHandling() // 인증 안된 사용자는 ㄴㄴ

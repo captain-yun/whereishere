@@ -49,7 +49,7 @@ public class MainController {
 
         List<Company> companies = companyService.findAll();
 
-        List<Company> companyList = companies.stream().filter(n -> n.getCompanyIntroduction().contains(search)).collect(Collectors.toUnmodifiableList());
+        List<Company> companyList = companies.stream().filter(n -> n.getIntro().contains(search)).collect(Collectors.toUnmodifiableList());
 
         model.addAttribute("companyList", companyList);
 

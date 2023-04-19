@@ -1,14 +1,10 @@
 package twogtwoj.whereishere.domain;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Entity
@@ -20,24 +16,24 @@ public class Company {
 
 //    @Range(min = 5, max = 15)
    // @Column(unique = true) // 중복 불가
-    private String companyLoginId;
+    private String loginId;
 
 //    @Range(min = 8, max = 20)
-    private String companyLoginPw;
+    private String password;
 
-    private Long companyBusinessId; // 사업자 번호
+    private Long businessId; // 사업자 번호
 
 //    @Range(min = 2, max = 100)
-    private String companyName;
+    private String name;
 
-    private String companyImg;
+    private String img;
 
     @Column(length = 10000)
-    private String companyIntroduction;
+    private String intro;
 
-    private String companyCategory;
+    private String category;
 
-    private String companyAddress;
+    private String address;
 
     @OneToMany(mappedBy = "company")
     private List<Comment> comments = new ArrayList<>();
@@ -48,15 +44,15 @@ public class Company {
     @OneToMany(mappedBy = "company")
     private List<ReviewPost> reviewPosts = new ArrayList<>();
 
-    public Company(String companyLoginId, String companyLoginPw, Long companyBusinessId, String companyName, String companyImg, String companyIntroduction, String companyCategory, String companyAddress) {
-        this.companyLoginId = companyLoginId;
-        this.companyLoginPw = companyLoginPw;
-        this.companyBusinessId = companyBusinessId;
-        this.companyName = companyName;
-        this.companyImg = companyImg;
-        this.companyIntroduction = companyIntroduction;
-        this.companyCategory = companyCategory;
-        this.companyAddress = companyAddress;
+    public Company(String loginId, String password, Long businessId, String name, String img, String companyIntroduction, String category, String address) {
+        this.loginId = loginId;
+        this.password = password;
+        this.businessId = businessId;
+        this.name = name;
+        this.img = img;
+        this.intro = companyIntroduction;
+        this.category = category;
+        this.address = address;
     }
 
     public Company() {}

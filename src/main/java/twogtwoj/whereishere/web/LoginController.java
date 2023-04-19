@@ -26,12 +26,14 @@ public class LoginController {
         return "login/login-form";
     }
 
+    /*
     @PostMapping
     public String login(@Validated @ModelAttribute("loginDto") LoginDto loginDto
                         , BindingResult bindingResult) {
 
         return "login/login-form";
     }
+    */
 
     @GetMapping("/join/member")
     public String memberjoinForm(Model model){

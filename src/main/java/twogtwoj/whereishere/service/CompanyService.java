@@ -5,12 +5,10 @@ import org.springframework.stereotype.Service;
 import twogtwoj.whereishere.domain.Company;
 import twogtwoj.whereishere.domain.ReviewPost;
 import twogtwoj.whereishere.domain.Star;
-import twogtwoj.whereishere.dto.ReviewPostDto;
 import twogtwoj.whereishere.repository.CompanyRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -30,7 +28,7 @@ public class CompanyService {
     }
 
     public Company CompanyByCompanyName(String companyName) {
-        return companyRepository.findByCompanyName(companyName);
+        return companyRepository.findByName(companyName);
     }
 
     public Company findById(Long companyId) {
